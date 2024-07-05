@@ -1,10 +1,10 @@
 package server
 
 import (
-	"fmt"
 	"io"
 	"net"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -29,8 +29,11 @@ func (h *fileHandler) Handle(conn net.Conn, request *Request, response *Response
 
 	if request.Method == "GET" {
 
-		filePath := fmt.Sprintf("%s%s", PublicDir, request.Path)
-		if strings.HasSuffix(filePath, "/") {
+		filePath := filepath.Join(PublicDir, filepath.Clean(request.Path))
+
+		if filePath == PublicDir {
+			filePath += "/index.html"
+		} else if strings.HasSuffix(filePath, "/") {
 			filePath += "index.html"
 		}
 
