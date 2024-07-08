@@ -7,20 +7,20 @@ import (
 	"time"
 )
 
-type ifModifiedSinceHandler struct {
+type lastModifiedHandler struct {
 	NextHandler Handler
 }
 
-func NewIfModifiedSinceHandler() *ifModifiedSinceHandler {
-	return &ifModifiedSinceHandler{}
+func NewLastModifiedHandler() *lastModifiedHandler {
+	return &lastModifiedHandler{}
 }
 
-func (h *ifModifiedSinceHandler) SetNext(handler Handler) Handler {
+func (h *lastModifiedHandler) SetNext(handler Handler) Handler {
 	h.NextHandler = handler
 	return handler
 }
 
-func (h *ifModifiedSinceHandler) Handle(conn net.Conn, request *Request, response *Response) error {
+func (h *lastModifiedHandler) Handle(conn net.Conn, request *Request, response *Response) error {
 	err := func() error {
 		if request.Method != "GET" {
 			return nil

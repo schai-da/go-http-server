@@ -16,11 +16,11 @@ func main() {
 	keepAliveHandler := server.NewKeepAliveHandler()
 	responseHandler := server.NewResponseHandler()
 	requestHandler := server.NewRequestHandler()
-	ifModifiedSinceHandler := server.NewIfModifiedSinceHandler()
+	lastModifiedHandler := server.NewLastModifiedHandler()
 	fileHandler := server.NewFileHandler()
-	cacheHandler := server.NewCacheHandler()
+	etagHandler := server.NewEtagHandler()
 
-	keepAliveHandler.SetNext(responseHandler).SetNext(requestHandler).SetNext(ifModifiedSinceHandler).SetNext(fileHandler).SetNext(cacheHandler)
+	keepAliveHandler.SetNext(responseHandler).SetNext(requestHandler).SetNext(lastModifiedHandler).SetNext(fileHandler).SetNext(etagHandler)
 
 	for {
 		conn, err := listener.Accept()
